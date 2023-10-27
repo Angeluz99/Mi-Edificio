@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -118,9 +119,26 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+# Define the URL prefix for static files
+STATIC_URL = '/static/'  # On terminal: python manage.py collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # You can change 'staticfiles' to a different directory if needed
+
+
+# Specify the directories where static files will be collected
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),  # Add this line
+# ]
+
+# You may also need to add the following line to serve static files during development
+# This is for development purposes and should be removed in a production environment
+# if DEBUG:
+#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/' #This defines the base URL for serving media files.
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # This specifies the local filesystem path where uploaded media files will be stored.
