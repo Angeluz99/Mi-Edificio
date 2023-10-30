@@ -16,7 +16,9 @@ def submit_ticket(request):
         description = request.POST.get('description')
         category = request.POST.get('category')
         apartment = request.POST.get('apartment')
-        picture = request.FILES.get('picture')  # Get the uploaded picture file
+        picture = request.FILES.get('picture') 
+        contact = request.POST.get('contact')  # Retrieve the contact field
+ # Get the uploaded picture file
 
         try:
             new_ticket = Ticket(
@@ -25,6 +27,7 @@ def submit_ticket(request):
                 category=category,
                 apartment=apartment,
                 user=request.user,
+                contact=contact,
                 picture=picture,  # Save the picture in the database
             )
             new_ticket.save()
@@ -50,6 +53,7 @@ def get_user_tickets(request):
                 'apartment' : ticket.apartment,
                 'status': ticket.status,
                 'comments' : ticket.comments,  
+                'contact' : ticket.contact,
                 'created_at': date_filter(ticket.created_at, "F j, Y, g:i a"),  # Format the date
                 # Add more ticket details as needed
             })
@@ -97,6 +101,7 @@ def get_guest_tickets(request):
             ticket_data.append({
                 'id': ticket.id,
                 'apartment': ticket.apartment,
+                'contact' : ticket.contact,       
                 'title': ticket.title,
                 'description': ticket.description,
                 'category': ticket.get_category_display(),

@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script> 
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
     <title>Maintenance Index</title>
 </head>
 <body>
@@ -27,7 +30,8 @@
         </select>
         <button id="searchButton">Search</button>
     </div>
-    
+    <div id="submittedNotification"></div>
+
     
     <div id="allusersTickets">
         <!-- All user tickets will be displayed here -->
@@ -53,13 +57,13 @@
             <div id="imageContainer">
                 <img id="ticketImage" src="" alt="Ticket Picture" />
             </div>
-            <button type="button" id="updateButton" data-id="">Update</button>
+            <button type="button" id="updateButton" data-id="" onclick="submitNotification()">Update</button>
             <button type="button" id="cancelTicket">Close</button>
         </form>
     </div>
     
 
-    <script src="{% static 'guestServicedesk/maintenanceindex.js' %}"></script>
+    <script type="text/babel" src="{% static 'guestServicedesk/maintenanceindex.js' %}"></script>
     <script>
         function populateApartmentNumbers() {
             const apartmentSelect = document.getElementById("apartmentNumber");
@@ -75,13 +79,5 @@
     </script>
     </body>
     </html>
-    By placing your script just before the closing </body> tag, you ensure that it executes after the HTML elements are created, and it should populate the apartment numbers correctly. Make sure that you have saved your HTML file after making this change.
-    
-    
-    
-    
-    
-    
-</body>
-</html>
+
 

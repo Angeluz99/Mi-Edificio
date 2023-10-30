@@ -28,7 +28,7 @@ function loadUserTickets() {
                     ticketDiv.innerHTML = `
                         <h3>${ticket.title}</h3>
                         <p>ID: ${ticket.id}</p>
-
+                        
                         <p>Description: ${ticket.description}</p>
                         <p>Category: ${ticket.category}</p>
                         <p>Apartment: ${ticket.apartment}</p>
@@ -89,7 +89,9 @@ submitButton.addEventListener("click", () => {
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
     const category = document.getElementById("category").value;
-    const apartment = document.getElementById("apartment").value;
+    const apartment = document.getElementById("apartmentNumber").value;
+    const contact = document.getElementById("contact").value;
+
     const pictureInput = document.getElementById("picture"); // Get the file input element
     const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
 
@@ -106,6 +108,7 @@ submitButton.addEventListener("click", () => {
     formData.append('category', category);
     formData.append('apartment', apartment);
     formData.append('picture', pictureInput.files[0]); // Append the selected file
+    formData.append("contact", contact); // Include the contact field
 
     // Send the form data to the server
     fetch('/submit_ticket/', { // URL points to 'views.submit_ticket'
@@ -137,6 +140,25 @@ submitButton.addEventListener("click", () => {
     });
 });
 
+
+function submitNotification(){
+    function ReactTest() {
+
+        return (
+          <div >
+      
+                <h1>Ticket submitted. Thanks!</h1> 
+      
+          </div>
+        );
+      }
+      
+      ReactDOM.render(<ReactTest />, document.getElementById('submittedNotification'));
+      
+      setTimeout(() => {
+          ReactDOM.unmountComponentAtNode(document.getElementById('submittedNotification'));
+        }, 3000); 
+}
 // Delete ticket
 // Attach an event listener to the parent container using event delegation
 userTicketsContainer.addEventListener('click', (event) => {

@@ -4,6 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script> 
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
     <title>User Index</title>
 </head>
 <body>
@@ -11,6 +14,7 @@
     <a href="{% url 'login' %}" id="logout-link">Logout</a>
     <div>User Type: Guest</div>
     <button id="openTicketFormButton">Create Ticket</button>
+    <div id="submittedNotification"></div>
 
     <div id="userTickets">
 
@@ -31,11 +35,12 @@
             <!-- Add an input field for the Apartment -->
             <label for="apartment">Apartment:</label>
             <select id="apartmentNumber">
-                <option value="">All</option>
+                <!-- <option value="">All</option> -->
             </select>            
             <br>
             
-        
+            <label for="contact">Contact number:</label>
+            <input type="text" id="contact" name="contact" required><br>
         
             <!-- Add a dropdown menu for the Category field -->
             <label for="category">Category:</label>
@@ -50,14 +55,13 @@
             <label for="picture">Picture:</label>
             <input type="file" id="picture" name="picture"><br>
                     
-            <button type="button" id="submitTicket">Submit</button>
+            <button type="button" id="submitTicket" onclick="submitNotification()">Submit</button>
             <button type="button" id="cancelTicket">Cancel</button>
         </form>
     </div>        
     
-    
 
-    <script src="{% static 'guestServicedesk/guestindex.js' %}"></script>
+    <script type="text/babel" src="{% static 'guestServicedesk/guestindex.js' %}"></script>
     <script>
         function populateApartmentNumbers() {
             const apartmentSelect = document.getElementById("apartmentNumber");

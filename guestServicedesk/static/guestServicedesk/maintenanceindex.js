@@ -1,3 +1,22 @@
+
+// function ReactTest() {
+
+//   return (
+//     <div className="closeTableForm">
+
+//           <h3>Table #</h3> 
+
+//     </div>
+//   );
+// }
+
+// ReactDOM.render(<ReactTest />, document.getElementById('reactDiv'));
+
+// setTimeout(() => {
+//     ReactDOM.unmountComponentAtNode(document.getElementById('reactDiv'));
+//   }, 3000); 
+
+
 // Function to load and display all guest tickets in maintenanceindex.html
 function loadGuestTickets() {
     const allUsersTicketsContainer = document.getElementById("allusersTickets");
@@ -5,6 +24,8 @@ function loadGuestTickets() {
     const formTitle = document.getElementById("formTitle");
     const statusInput = document.getElementById("status");
     const commentsInput = document.getElementById("comments");
+    // const contact = document.getElementById("contact").value;
+
     const updateButton = document.getElementById("updateButton");
     const ticketImage = document.getElementById("ticketImage"); 
 
@@ -25,6 +46,8 @@ function loadGuestTickets() {
                     ticketDiv.innerHTML = `
                         <p>ID: ${ticket.id}</p>
                         <p>Created By: ${ticket.username}</p>
+                        <p>Contact: ${ticket.contact}</p>
+
                         <p>Created At: ${ticket.created_at}</p>
                         <p>Apartment: ${ticket.apartment}</p>
                         <p>Title: ${ticket.title}</p>
@@ -130,6 +153,24 @@ document.getElementById("updateButton").addEventListener("click", () => {
     });
 });
 
+function submitNotification(){
+    function ReactTest() {
+
+        return (
+          <div >
+      
+                <h1>Ticket updated. Thanks!</h1> 
+      
+          </div>
+        );
+      }
+      
+      ReactDOM.render(<ReactTest />, document.getElementById('submittedNotification'));
+      
+      setTimeout(() => {
+          ReactDOM.unmountComponentAtNode(document.getElementById('submittedNotification'));
+        }, 3000); 
+}
 
 // Search handle the Apartment number and Category search
 document.getElementById("searchButton").addEventListener("click", () => {
@@ -167,14 +208,19 @@ document.getElementById("searchButton").addEventListener("click", () => {
                     const ticketDiv = document.createElement("div");
                     ticketDiv.innerHTML = `
                         <p>ID: ${ticket.id}</p>
+                        <p>Created By: ${ticket.username}</p>
+                        <p>Contact: ${ticket.contact}</p>
+
+
                         <p>Created At: ${ticket.created_at}</p>
+
                         <p>Apartment: ${ticket.apartment}</p>
                         <p>Title: ${ticket.title}</p>
                         <p>Description: ${ticket.description}</p>
                         <p>Category: ${ticket.category}</p>
                         <p>Comments: ${ticket.comments}</p>
                         <p>Status: ${ticket.status}</p>
-                        <p>Created By: ${ticket.username}</p>
+
                         <button class="viewTicketButton" data-id="${ticket.id}">Update Ticket</button>
                     `;
                     allUsersTicketsContainer.appendChild(ticketDiv);
@@ -190,20 +236,3 @@ document.getElementById("searchButton").addEventListener("click", () => {
         });
 });
 
-// function populateApartmentNumbers() {
-//     const apartmentSelect = document.getElementById("apartmentNumber");
-
-//     for (let i = 101; i <= 111; i++) {
-//         const option = document.createElement("option");
-//         option.value = i;
-//         option.text = i;
-//         apartmentSelect.appendChild(option);
-//     }
-
-//     // If you prefer the guest form to have an input field, you can set its min and max attributes:
-//     // apartmentInput.setAttribute("min", 101);
-//     // apartmentInput.setAttribute("max", 111);
-// }
-
-// // Call the function to populate apartment numbers when the page loads
-// populateApartmentNumbers();
