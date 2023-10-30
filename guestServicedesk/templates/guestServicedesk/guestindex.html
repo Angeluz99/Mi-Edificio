@@ -1,4 +1,6 @@
 {% load static %}
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,10 +8,12 @@
 </head>
 <body>
     <h2>Welcome, {{ user.username }}!</h2>
+    <a href="{% url 'login' %}" id="logout-link">Logout</a>
     <div>User Type: Guest</div>
     <button id="openTicketFormButton">Create Ticket</button>
 
     <div id="userTickets">
+
         <!-- User's tickets will be displayed here -->
     </div>
 
@@ -26,7 +30,12 @@
         
             <!-- Add an input field for the Apartment -->
             <label for="apartment">Apartment:</label>
-            <input type="number" id="apartment" name="apartment" required><br>
+            <select id="apartmentNumber">
+                <option value="">All</option>
+            </select>            
+            <br>
+            
+        
         
             <!-- Add a dropdown menu for the Category field -->
             <label for="category">Category:</label>
@@ -48,8 +57,19 @@
     
     
 
-    <script src="{% static 'guestServicedesk/guestindex.js' %}">
-
+    <script src="{% static 'guestServicedesk/guestindex.js' %}"></script>
+    <script>
+        function populateApartmentNumbers() {
+            const apartmentSelect = document.getElementById("apartmentNumber");
+            const apartmentInput = document.getElementById("apartment");
+            for (let i = 101; i <= 111; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.text = i;
+                apartmentSelect.appendChild(option);
+            }
+        }
+        populateApartmentNumbers();
     </script>
 </body>
 </html>

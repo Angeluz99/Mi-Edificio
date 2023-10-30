@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,13 +7,27 @@
 </head>
 <body>
     <h2>Welcome, {{ user.username }}!</h2>
+    <a href="{% url 'login' %}" id="logout-link">Logout</a>
+
     <div>User Type: Maintenance</div>
     
     <div>
         <label for="apartmentNumber">Apartment Number:</label>
-        <input type="number" id="apartmentNumber" placeholder="Enter apartment number">
+        <select id="apartmentNumber">
+            <option value="">All</option>
+        </select>
+        
+        <label for="category">Category:</label>
+        <select id="category">
+            <option value="">All</option>
+            <option value="electricity">Electricity</option>
+            <option value="plumber">Plumber</option>
+            <option value="structures">Structures</option>
+            <option value="locksmith">Locksmith</option>
+        </select>
         <button id="searchButton">Search</button>
     </div>
+    
     
     <div id="allusersTickets">
         <!-- All user tickets will be displayed here -->
@@ -39,14 +54,34 @@
                 <img id="ticketImage" src="" alt="Ticket Picture" />
             </div>
             <button type="button" id="updateButton" data-id="">Update</button>
-            <button type="button" id="cancelTicket">Cancel</button>
+            <button type="button" id="cancelTicket">Close</button>
         </form>
     </div>
     
 
-    <script src="{% static 'guestServicedesk/maintenanceindex.js' %}">
-
+    <script src="{% static 'guestServicedesk/maintenanceindex.js' %}"></script>
+    <script>
+        function populateApartmentNumbers() {
+            const apartmentSelect = document.getElementById("apartmentNumber");
+            const apartmentInput = document.getElementById("apartment");
+            for (let i = 101; i <= 111; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.text = i;
+                apartmentSelect.appendChild(option);
+            }
+        }
+        populateApartmentNumbers();
     </script>
+    </body>
+    </html>
+    By placing your script just before the closing </body> tag, you ensure that it executes after the HTML elements are created, and it should populate the apartment numbers correctly. Make sure that you have saved your HTML file after making this change.
+    
+    
+    
+    
+    
+    
 </body>
 </html>
 

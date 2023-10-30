@@ -8,7 +8,7 @@ function loadGuestTickets() {
     const updateButton = document.getElementById("updateButton");
     const ticketImage = document.getElementById("ticketImage"); 
 
-    // Make an AJAX request to the server to get all guest tickets
+    // Make an AJAX request to the server to get all  tickets of all guests for maintenance index
     fetch('/get_guest_tickets/')
         .then(response => response.json())
         .then(data => {
@@ -93,7 +93,7 @@ document.getElementById("cancelTicket").addEventListener("click", () => {
 });
 
 
-// Function to submit the update for a specific ticket
+// Function to submit the update for a specific ticket in maintenance
 document.getElementById("updateButton").addEventListener("click", () => {
     const ticketID = document.getElementById("updateButton").getAttribute("data-id");
     const status = document.getElementById("status").value;
@@ -131,12 +131,28 @@ document.getElementById("updateButton").addEventListener("click", () => {
 });
 
 
-// SEarch handle the apartment number search
+// Search handle the Apartment number and Category search
 document.getElementById("searchButton").addEventListener("click", () => {
     const apartmentNumber = document.getElementById("apartmentNumber").value;
+    const category = document.getElementById("category").value;  // Get the selected category
 
+    let url = '/get_guest_tickets/?'; // Initialize the URL
+
+    if (apartmentNumber) {
+        url += `apartmentNumber=${apartmentNumber}&`; // Include apartment number in the URL if it's selected
+    }
+
+    if (category) {
+        url += `category=${category}&`; // Include category in the URL if it's selected
+    }
+
+    // Remove the trailing '&' from the URL if no filters are selected
+    if (url.endsWith('&')) {
+        url = url.slice(0, -1);
+    }
     // Make an AJAX request to filter tickets by apartment number
-    fetch(`/get_guest_tickets/?apartmentNumber=${apartmentNumber}`)
+    // fetch(`/get_guest_tickets/?apartmentNumber=${apartmentNumber}&category=${category}`)
+        fetch(url)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -173,3 +189,21 @@ document.getElementById("searchButton").addEventListener("click", () => {
             console.error(error);
         });
 });
+
+// function populateApartmentNumbers() {
+//     const apartmentSelect = document.getElementById("apartmentNumber");
+
+//     for (let i = 101; i <= 111; i++) {
+//         const option = document.createElement("option");
+//         option.value = i;
+//         option.text = i;
+//         apartmentSelect.appendChild(option);
+//     }
+
+//     // If you prefer the guest form to have an input field, you can set its min and max attributes:
+//     // apartmentInput.setAttribute("min", 101);
+//     // apartmentInput.setAttribute("max", 111);
+// }
+
+// // Call the function to populate apartment numbers when the page loads
+// populateApartmentNumbers();

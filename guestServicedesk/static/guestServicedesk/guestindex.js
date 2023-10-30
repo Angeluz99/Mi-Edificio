@@ -3,6 +3,7 @@ const ticketForm = document.getElementById("ticketForm");
 const submitButton = document.getElementById("submitTicket");
 const cancelButton = document.getElementById("cancelTicket");
 const userTicketsContainer = document.getElementById("userTickets"); // Moved this outside the function
+const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
 
 /// Function to load and display the user's tickets, including titles and descriptions
 function loadUserTickets() {
@@ -12,6 +13,7 @@ function loadUserTickets() {
     fetch('/get_user_tickets/') // Adjust the URL if necessary
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             if (data.success) {
                 const tickets = data.tickets; // Assuming the response contains user-specific tickets
 
@@ -21,16 +23,20 @@ function loadUserTickets() {
                 // Loop through the tickets and add them to the container
                 tickets.forEach(ticket => {
                     const ticketDiv = document.createElement("div");
+                    console.log(ticket.id)
 
                     ticketDiv.innerHTML = `
                         <h3>${ticket.title}</h3>
+                        <p>ID: ${ticket.id}</p>
+
                         <p>Description: ${ticket.description}</p>
                         <p>Category: ${ticket.category}</p>
                         <p>Apartment: ${ticket.apartment}</p>
-                        <p>Status: ${ticket.status}</p> <!-- Display status -->
+                        <p>Status: ${ticket.status}</p>
                         <p>Comments: ${ticket.comments}</p>
-
+                        
                         <p>Created At: ${ticket.created_at}</p>
+                        <a href="#" class="delete-ticket" data-ticket-id="${ticket.id}">Delete</a>
                     `;
                     userTicketsContainer.appendChild(ticketDiv);
                 });
@@ -77,7 +83,7 @@ cancelButton.addEventListener("click", () => {
     ticketForm.style.display = "none";
 });
 
-// Function to submit a new ticket
+// Handler to Submit a New ticket
 submitButton.addEventListener("click", () => {
     // Retrieve data from the form fields
     const title = document.getElementById("title").value;
@@ -102,7 +108,7 @@ submitButton.addEventListener("click", () => {
     formData.append('picture', pictureInput.files[0]); // Append the selected file
 
     // Send the form data to the server
-    fetch('/submit_ticket/', {
+    fetch('/submit_ticket/', { // URL points to 'views.submit_ticket'
         method: 'POST',
         headers: {
             'X-CSRFToken': csrfToken,
@@ -130,6 +136,44 @@ submitButton.addEventListener("click", () => {
         console.error(error);
     });
 });
+
+// Delete ticket
+// Attach an event listener to the parent container using event delegation
+userTicketsContainer.addEventListener('click', (event) => {
+    const target = event.target;
+
+    // Check if the clicked element has the class 'delete-ticket'
+    if (target.classList.contains('delete-ticket')) {
+        event.preventDefault(); // Prevent the link from navigating
+
+        const ticketID = target.getAttribute('data-ticket-id');
+
+        // Make an AJAX request to delete the ticket
+        fetch(`/delete_ticket/${ticketID}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken, // Ensure you have csrfToken defined
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Ticket deleted successfully, update the ticket list
+                loadUserTickets();
+            } else {
+                // Handle errors
+                console.error(data.message);
+            }
+        })
+        .catch(error => {
+            // Handle any errors
+            console.error(error);
+        });
+    }
+});
+
+
+
 
 // Call the function when the page loads
 loadUserTickets(); // Now called when the page loads

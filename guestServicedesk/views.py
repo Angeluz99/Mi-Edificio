@@ -9,6 +9,32 @@ from .models import CustomUser, Ticket
 from django.http import JsonResponse
 from django.template.defaultfilters import date as date_filter
 
+
+def submit_ticket(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        category = request.POST.get('category')
+        apartment = request.POST.get('apartment')
+        picture = request.FILES.get('picture')  # Get the uploaded picture file
+
+        try:
+            new_ticket = Ticket(
+                title=title,
+                description=description,
+                category=category,
+                apartment=apartment,
+                user=request.user,
+                picture=picture,  # Save the picture in the database
+            )
+            new_ticket.save()
+
+            return JsonResponse({'success': True, 'message': 'Ticket submitted successfully'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': 'Error: ' + str(e)})
+    return HttpResponseBadRequest("Invalid request")
+
+
 #displays all tickets created from the current loged user.
 def get_user_tickets(request):
     if request.user.is_authenticated:
@@ -17,6 +43,7 @@ def get_user_tickets(request):
         ticket_data = []
         for ticket in tickets:
             ticket_data.append({
+                'id': ticket.id,
                 'title': ticket.title,
                 'description': ticket.description,
                 'category': ticket.category,
@@ -47,42 +74,23 @@ def get_ticket_status(request, ticket_id):
 
 
 
-def submit_ticket(request):
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        category = request.POST.get('category')
-        apartment = request.POST.get('apartment')
-        picture = request.FILES.get('picture')  # Get the uploaded picture file
 
-        try:
-            new_ticket = Ticket(
-                title=title,
-                description=description,
-                category=category,
-                apartment=apartment,
-                user=request.user,
-                picture=picture,  # Save the picture in the database
-            )
-            new_ticket.save()
-
-            return JsonResponse({'success': True, 'message': 'Ticket submitted successfully'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': 'Error: ' + str(e)})
-    return HttpResponseBadRequest("Invalid request")
 
 
 # Shows all tickets on maintenanceindex
-# Updated get_guest_tickets view
 # Updated get_guest_tickets view to include apartment number filter
 def get_guest_tickets(request):
     if request.user.is_authenticated:
         apartment_number = request.GET.get('apartmentNumber', None)
+        category = request.GET.get('category', None)  # Add category parameter
         
         guest_tickets = Ticket.objects.select_related('user').all()
-
+        
         if apartment_number is not None:
             guest_tickets = guest_tickets.filter(apartment=apartment_number)
+
+        if category is not None:  # Filter by category
+            guest_tickets = guest_tickets.filter(category=category)
 
         ticket_data = []
         for ticket in guest_tickets:
@@ -104,7 +112,7 @@ def get_guest_tickets(request):
 
 
 
-# to post status comments 
+# to post status and comments 
 def update_ticket(request, ticket_id):
     if request.method == 'POST':
         status = request.POST.get('status')
@@ -126,6 +134,16 @@ def update_ticket(request, ticket_id):
             return JsonResponse({'success': False, 'message': 'Error: ' + str(e)})
 
     return JsonResponse({'success': False, 'message': 'Invalid request'})
+
+def delete_ticket(request, ticket_id):
+    try:
+        ticket = Ticket.objects.get(pk=ticket_id)
+        ticket.delete()
+        return JsonResponse({"success": True, "message": "Ticket deleted successfully"})
+    except Ticket.DoesNotExist:
+        return JsonResponse({"success": False, "message": "Ticket not found"})
+    except Exception as e:
+        return JsonResponse({"success": False, "message": f"Error: {str(e)}"})
 
 
 

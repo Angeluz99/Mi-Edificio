@@ -1,0 +1,3 @@
+add delete buton to tickets.
+Add button to log out
+pre pulate the comments and status when opening image
