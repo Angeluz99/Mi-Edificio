@@ -119,6 +119,8 @@ def get_guest_tickets(request):
 
 # to post status and comments 
 def update_ticket(request, ticket_id):
+    response_data = {'success': False, 'message': 'Invalid request'}
+
     if request.method == 'POST':
         status = request.POST.get('status')
         comments = request.POST.get('comments')
@@ -132,13 +134,13 @@ def update_ticket(request, ticket_id):
             ticket.comments = comments
             ticket.save()
 
-            return JsonResponse({'success': True, 'message': 'Ticket updated successfully'})
+            response_data = {'success': True, 'message': 'Ticket updated successfully'}
         except Ticket.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'Ticket not found'})
+            response_data['message'] = 'Ticket not found'
         except Exception as e:
-            return JsonResponse({'success': False, 'message': 'Error: ' + str(e)})
+            response_data['message'] = 'Error: ' + str(e)
 
-    return JsonResponse({'success': False, 'message': 'Invalid request'})
+    return JsonResponse(response_data)
 
 def delete_ticket(request, ticket_id):
     try:

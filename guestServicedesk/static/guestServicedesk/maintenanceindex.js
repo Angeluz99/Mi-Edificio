@@ -1,82 +1,61 @@
-
-// function ReactTest() {
-
-//   return (
-//     <div className="closeTableForm">
-
-//           <h3>Table #</h3> 
-
-//     </div>
-//   );
-// }
-
-// ReactDOM.render(<ReactTest />, document.getElementById('reactDiv'));
-
-// setTimeout(() => {
-//     ReactDOM.unmountComponentAtNode(document.getElementById('reactDiv'));
-//   }, 3000); 
-
-
+// Define viewTicketButtons globally
+const viewTicketButtons = [];
+const statusInput = document.getElementById("status");
+const commentsInput = document.getElementById("comments");
 // Function to load and display all guest tickets in maintenanceindex.html
 function loadGuestTickets() {
     const allUsersTicketsContainer = document.getElementById("allusersTickets");
     const ticketForm = document.getElementById("ticketForm");
     const formTitle = document.getElementById("formTitle");
-    const statusInput = document.getElementById("status");
-    const commentsInput = document.getElementById("comments");
-    // const contact = document.getElementById("contact").value;
 
     const updateButton = document.getElementById("updateButton");
-    const ticketImage = document.getElementById("ticketImage"); 
+    const ticketImage = document.getElementById("ticketImage");
 
-    // Make an AJAX request to the server to get all  tickets of all guests for maintenance index
+    // Make an AJAX request to the server to get all tickets of all guests for maintenance index
     fetch('/get_guest_tickets/')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                console.log("consolelog(data)", data);
                 const guestTickets = data.guest_tickets;
 
                 // Clear any previous content in the container
                 allUsersTicketsContainer.innerHTML = '';
-                // <img src="${ticket.picture}" alt="Ticket Picture" />  <!-- Display the picture -->
 
                 // Loop through the guest tickets and add them to the container
                 guestTickets.forEach(ticket => {
                     const ticketDiv = document.createElement("div");
                     ticketDiv.innerHTML = `
-                        <p>ID: ${ticket.id}</p>
-                        <p>Created By: ${ticket.username}</p>
-                        <p>Contact: ${ticket.contact}</p>
+                    <div class=" col-6 bg-info text-center rounded border border-success m-3 d-flex flex-column align-self-start">
 
-                        <p>Created At: ${ticket.created_at}</p>
-                        <p>Apartment: ${ticket.apartment}</p>
-                        <p>Title: ${ticket.title}</p>
-                        <p>Description: ${ticket.description}</p>
+                        <h6 class="text-light" ><i class="bi bi-door-closed"></i> ${ticket.apartment}. Ticket ${ticket.id}. </h6>
+                        <h5><i class="bi bi-person-rolodex"></i> By ${ticket.username} at ${ticket.created_at}</h5>
+                        <p><i class="bi bi-telephone-inbound-fill"></i> ${ticket.contact}</p>
+                        <h5 class="text-light"> <strong>${ticket.title}</strong>. ${ticket.description}</h5>                       
+                        <p><i class="bi bi-tools"></i> ${ticket.category}</p>
+                        <h6>Comments: ${ticket.comments}</h6>
+                        <h5 class="text-light">Status: ${ticket.status}</h5>
 
-                        <p>Category: ${ticket.category}</p>
-                        <p>Comments: ${ticket.comments}</p>
-                        <p>Status: ${ticket.status}</p>
-
-                        <button class="viewTicketButton" data-id="${ticket.id}">Update Ticket</button>
+                        <button class="viewTicketButton btn btn-secondary" data-id="${ticket.id}">See picture and update ticket</button>
+                    </div>
                     `;
                     allUsersTicketsContainer.appendChild(ticketDiv);
                 });
 
                 // Add event listeners for "View Ticket" buttons
-                const viewTicketButtons = document.querySelectorAll(".viewTicketButton");
-                viewTicketButtons.forEach(button => {
+                viewTicketButtons.length = 0; // Clear the array before populating
+                document.querySelectorAll(".viewTicketButton").forEach(button => {
+                    viewTicketButtons.push(button);
                     button.addEventListener("click", () => {
                         const ticketID = button.getAttribute("data-id");
-            
+
                         // Show the form and populate it with ticket data
                         ticketForm.style.display = "block";
-                        formTitle.innerText = `View Ticket ID: ${ticketID}`;
-                        statusInput.value = ''; // Clear status input
-                        commentsInput.value = ''; // Clear comments input
-            
+                        formTitle.innerText = `Ticket ${ticketID}`;
+
                         // Find the selected ticket in the guestTickets array
                         const selectedTicket = guestTickets.find(ticket => String(ticket.id) === ticketID);
-            
+
                         if (selectedTicket) {
                             // Populate the image container with the ticket's image
                             if (selectedTicket.picture) {
@@ -85,14 +64,21 @@ function loadGuestTickets() {
                             } else {
                                 ticketImage.style.display = "none"; // Hide the image container
                             }
+
+                            // Populate comments and status inputs
+                            statusInput.value = selectedTicket.status;
+                            commentsInput.value = selectedTicket.comments;
+                            console.log(selectedTicket.status);
                         } else {
                             // Handle the case where the selected ticket is not found
                             console.error("Selected ticket not found");
-                            // Clear the image container
+                            // Clear the image container, comments, and status inputs
                             ticketImage.src = '';
                             ticketImage.style.display = "none"; // Hide the image container
+                            statusInput.value = '';
+                            commentsInput.value = '';
                         }
-            
+
                         updateButton.setAttribute("data-id", ticketID); // Set the ticket ID for the "Update" button
                     });
                 });
@@ -115,7 +101,6 @@ document.getElementById("cancelTicket").addEventListener("click", () => {
     document.getElementById("ticketForm").style.display = "none";
 });
 
-
 // Function to submit the update for a specific ticket in maintenance
 document.getElementById("updateButton").addEventListener("click", () => {
     const ticketID = document.getElementById("updateButton").getAttribute("data-id");
@@ -124,7 +109,7 @@ document.getElementById("updateButton").addEventListener("click", () => {
 
     const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
 
-    fetch(`/update_ticket/${ticketID}/`, {
+    fetch(`/update_ticket/${ticketID}/?status=${status}&comments=${comments}`, {
         method: 'POST',
         headers: {
             'X-CSRFToken': csrfToken,
@@ -136,8 +121,8 @@ document.getElementById("updateButton").addEventListener("click", () => {
     .then(data => {
         if (data.success) {
             // Handle success, maybe update the UI
-            console.log('comments and status updated')
-            
+            console.log('comments and status updated');
+
             // For example, close the update form
             document.getElementById("ticketForm").style.display = "none";
             // You may also want to update the ticket information on the page
@@ -153,20 +138,15 @@ document.getElementById("updateButton").addEventListener("click", () => {
     });
 });
 
-function submitNotification(){
+function submitNotification() {
     function ReactTest() {
-
         return (
           <div >
-      
-                <h1>Ticket updated. Thanks!</h1> 
-      
+                <h1>Ticket updated!</h1> 
           </div>
         );
       }
-      
       ReactDOM.render(<ReactTest />, document.getElementById('submittedNotification'));
-      
       setTimeout(() => {
           ReactDOM.unmountComponentAtNode(document.getElementById('submittedNotification'));
         }, 3000); 
@@ -192,8 +172,7 @@ document.getElementById("searchButton").addEventListener("click", () => {
         url = url.slice(0, -1);
     }
     // Make an AJAX request to filter tickets by apartment number
-    // fetch(`/get_guest_tickets/?apartmentNumber=${apartmentNumber}&category=${category}`)
-        fetch(url)
+    fetch(url)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -207,23 +186,60 @@ document.getElementById("searchButton").addEventListener("click", () => {
                 guestTickets.forEach(ticket => {
                     const ticketDiv = document.createElement("div");
                     ticketDiv.innerHTML = `
-                        <p>ID: ${ticket.id}</p>
-                        <p>Created By: ${ticket.username}</p>
-                        <p>Contact: ${ticket.contact}</p>
+                    <div class=" col-6 bg-info text-center rounded border border-success m-3 d-flex flex-column align-self-start">
 
+                        <h6 class="text-light" ><i class="bi bi-door-closed"></i> ${ticket.apartment}. Ticket ${ticket.id}. </h6>
+                        <h5><i class="bi bi-person-rolodex"></i> By ${ticket.username} at ${ticket.created_at}</h5>
+                        <p><i class="bi bi-telephone-inbound-fill"></i> ${ticket.contact}</p>
+                        <h5 class="text-light"> <strong>${ticket.title}</strong>. ${ticket.description}</h5>                       
+                        <p><i class="bi bi-tools"></i> ${ticket.category}</p>
+                        <h6>Comments: ${ticket.comments}</h6>
+                        <h5 class="text-light">Status: ${ticket.status}</h5>
 
-                        <p>Created At: ${ticket.created_at}</p>
-
-                        <p>Apartment: ${ticket.apartment}</p>
-                        <p>Title: ${ticket.title}</p>
-                        <p>Description: ${ticket.description}</p>
-                        <p>Category: ${ticket.category}</p>
-                        <p>Comments: ${ticket.comments}</p>
-                        <p>Status: ${ticket.status}</p>
-
-                        <button class="viewTicketButton" data-id="${ticket.id}">Update Ticket</button>
+                        <button class="viewTicketButton btn btn-secondary" data-id="${ticket.id}">See picture and update ticket</button>
+                    </div>
                     `;
                     allUsersTicketsContainer.appendChild(ticketDiv);
+                });
+
+                // Add event listeners for "View Ticket" buttons
+                viewTicketButtons.length = 0; // Clear the array before populating
+                document.querySelectorAll(".viewTicketButton").forEach(button => {
+                    viewTicketButtons.push(button);
+                    button.addEventListener("click", () => {
+                        const ticketID = button.getAttribute("data-id");
+
+                        // Show the form and populate it with ticket data
+                        ticketForm.style.display = "block";
+                        formTitle.innerText = `Ticket ${ticketID}`;
+
+                        // Find the selected ticket in the guestTickets array
+                        const selectedTicket = guestTickets.find(ticket => String(ticket.id) === ticketID);
+
+                        if (selectedTicket) {
+                            // Populate the image container with the ticket's image
+                            if (selectedTicket.picture) {
+                                ticketImage.src = selectedTicket.picture;
+                                ticketImage.style.display = "block"; // Show the image container
+                            } else {
+                                ticketImage.style.display = "none"; // Hide the image container
+                            }
+
+                            // Populate comments and status inputs
+                            statusInput.value = selectedTicket.status;
+                            commentsInput.value = selectedTicket.comments;
+                        } else {
+                            // Handle the case where the selected ticket is not found
+                            console.error("Selected ticket not found");
+                            // Clear the image container, comments, and status inputs
+                            ticketImage.src = '';
+                            ticketImage.style.display = "none"; // Hide the image container
+                            statusInput.value = '';
+                            commentsInput.value = '';
+                        }
+
+                        updateButton.setAttribute("data-id", ticketID); // Set the ticket ID for the "Update" button
+                    });
                 });
             } else {
                 // Handle errors
@@ -236,3 +252,6 @@ document.getElementById("searchButton").addEventListener("click", () => {
         });
 });
 
+function reArrangeHandler() {
+    document.querySelector("#allusersTickets").classList.toggle("d-flex");
+}

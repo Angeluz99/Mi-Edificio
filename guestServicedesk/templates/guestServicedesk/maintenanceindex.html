@@ -1,68 +1,87 @@
+{% extends "guestServicedesk/layout.html" %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script> 
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
-    <title>Maintenance Index</title>
-</head>
-<body>
-    <h2>Welcome, {{ user.username }}!</h2>
-    <a href="{% url 'login' %}" id="logout-link">Logout</a>
+{% block body %}
 
-    <div>User Type: Maintenance</div>
-    
-    <div>
-        <label for="apartmentNumber">Apartment Number:</label>
-        <select id="apartmentNumber">
-            <option value="">All</option>
-        </select>
-        
-        <label for="category">Category:</label>
-        <select id="category">
-            <option value="">All</option>
-            <option value="electricity">Electricity</option>
-            <option value="plumber">Plumber</option>
-            <option value="structures">Structures</option>
-            <option value="locksmith">Locksmith</option>
-        </select>
-        <button id="searchButton">Search</button>
+    <!-- heading -->
+    <div class="row bg-info text-light">
+        <div class="col-7"><h2 class="  col-6 m-2"><i class="bi bi-wrench-adjustable-circle-fill"></i> Welcome, {{ user.username }}!</h2></div>
+        <div class="col-4" ><img src="{% static "guestServicedesk/images/mantenimiento.jpg" %}" alt="Logo" class="offset-md-10" style="width: 100px;"></div>
     </div>
-    <div id="submittedNotification"></div>
+    <div class="row  bg-info">
+        <div class="col-6 offset-10">Maintenance User</div>
+    </div>
+        <div class="row">
+            <a class="col-6 offset-10" href="{% url 'login' %}" id="logout-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        </div>
 
-    
-    <div id="allusersTickets">
-        <!-- All user tickets will be displayed here -->
+    <!--     Search -->
+    <div class="row m-3">
+        <div class="col-6">
+            <label class="form-label" for="apartmentNumber"><i class="bi bi-door-closed"></i>Apartment Number:</label>
+            <select class="form-control" id="apartmentNumber">
+                <option value="">All</option>
+            </select>
+        </div>
+
+        <div class="col-6">
+            <label class="form-label" for="category"><i class="bi bi-tools"></i> Category:</label>
+            <select class="form-control" id="category">
+                <option value="">All</option>
+                <option value="electricity">Electricity</option>
+                <option value="plumber">Plumber</option>
+                <option value="structures">Structures</option>
+                <option value="locksmith">Locksmith</option>
+            </select>
+        </div>
     </div>
-    
-    <div id="ticketForm" style="display: none;">
-        <h2 id="formTitle">View Ticket</h2>
-    
-        <form id="updateForm">
+
+    <div class="row">
+        <div class="col-6 offset-1">
+            <button class="btn btn-success m-1" id="searchButton"><i class="bi bi-search"></i> Search</button>
+        </div>
+        <div class="col-5 ">
+            <button class="m-1 btn btn-info"  id="oldestFirst" onclick="reArrangeHandler()"><i class="bi bi-arrows-vertical fs-8"></i>Toggle timeline order</button>
+        </div>
+    </div>
+
+
+    <!--     Update ticket form -->
+    <div id="ticketForm" class="col-4 bg-info " style="display: none;">
+        <h2 id="formTitle" class="text-light">Ticket</h2>
+
+        <form id="updateForm" class="text-center">
             {% csrf_token %}
 
-            <input type="hidden" id="ticketID" name="ticketID" value="">
+            <input class="form-control" type="hidden" id="ticketID" name="ticketID" value="">
             
-            <label for="status">Status:</label>
-            <select id="status" name="status" required>
+            <label class="form-label" for="status">Status:</label>
+            <select class="form-control" id="status" name="status" required>
                 <option value="reported">Reported</option>
                 <option value="assigned">Assigned</option>
                 <option value="solved">Solved</option>
             </select><br>
-    
-            <label for="comments">Add Comments:</label>
+
+            <label class="form-label" for="comments">Add Comments:</label>
             <textarea id="comments" name="comments" rows="4" cols="50"></textarea><br>
-            <div id="imageContainer">
+            <div id="imageContainer" >
                 <img id="ticketImage" src="" alt="Ticket Picture" />
             </div>
-            <button type="button" id="updateButton" data-id="" onclick="submitNotification()">Update</button>
-            <button type="button" id="cancelTicket">Close</button>
+            <button class="btn btn-success" type="button" id="updateButton" data-id="" onclick="submitNotification()">Update</button>
+            <button  class="btn btn-secondary" type="button" id="cancelTicket">Close</button>
         </form>
     </div>
-    
+        
 
+    <div id="submittedNotification" class="text-info"></div>
+
+    <div id="allusersTickets" class="container flex-column-reverse border rounded border-light p-1" style="z-index: 0;">
+        
+        <!-- All user tickets will be displayed here -->
+    </div>
+
+        
     <script type="text/babel" src="{% static 'guestServicedesk/maintenanceindex.js' %}"></script>
     <script>
         function populateApartmentNumbers() {
@@ -77,7 +96,6 @@
         }
         populateApartmentNumbers();
     </script>
-    </body>
-    </html>
+{% endblock %}
 
 

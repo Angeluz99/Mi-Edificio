@@ -46,6 +46,6 @@ class Ticket(models.Model):
     picture = models.ImageField(upload_to='ticket_pictures/', blank=True, null=True)  # New field for pictures
 
     def __str__(self):
-        return f"{self.title}"
+        return f"{self.user} on apartment {self.apartment}. {self.title}"
 
 # superuser: angel password

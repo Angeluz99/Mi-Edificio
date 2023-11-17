@@ -1,64 +1,84 @@
+{% extends "guestServicedesk/layout.html" %}
+
 {% load static %}
 
 
-<!DOCTYPE html>
-<html>
-<head>
-    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script> 
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
-    <title>User Index</title>
-</head>
-<body>
-    <h2>Welcome, {{ user.username }}!</h2>
-    <a href="{% url 'login' %}" id="logout-link">Logout</a>
-    <div>User Type: Guest</div>
-    <button id="openTicketFormButton">Create Ticket</button>
+{% block body %}
+<div class="row bg-info text-light">
+    <h2 class="  col-6 m-2">Welcome, {{ user.username }}!</h2>
+    <img src="{% static "guestServicedesk/images/mantenimiento.jpg" %}" alt="LOGO" class="offset-md-10" style="width: 100px;">
+</div>
+<div class="row">
+    <div class="col-6 offset-10">User Type: Guest</div>
+</div>
+    <div class="row">
+        <a class="col-6 offset-10" href="{% url 'login' %}" id="logout-link">Logout</a>
+    </div>
+
+
+    <button class="m-3 btn btn-success" id="openTicketFormButton">Create Ticket</button>
     <div id="submittedNotification"></div>
 
-    <div id="userTickets">
+
+    <div class="container">
+    <div id="ticketForm" style="display: none;" class="p-3 space-between">
+        <form id="ticketFormContent">
+            {% csrf_token %}
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label" for="title">Title:</label>
+                    <input class="form-control" type="text" id="title" name="title" required><br>
+                </div>
+                <div class="col-6">
+                    <label class="form-label" for="description">Description:</label>
+                    <textarea class="form-control" id="description" name="description" required></textarea><br>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <label for="apartment">Apartment:</label>
+                    <select id="apartmentNumber">
+                        <!-- <option value="">All</option> -->
+                    </select>            
+                </div>
+        
+                <div class="col-6">
+                    <label for="contact">Contact number:</label>
+                    <input type="text" id="contact" name="contact" required><br>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category" required>
+                        <option value="electricity">Electricity</option>
+                        <option value="plumber">Plumber</option>
+                        <option value="structures">Structures</option>
+                        <option value="locksmith">Locksmith</option>
+                    </select><br>
+                </div>
+                
+                <div class="col-6">
+                    <label for="picture">Picture:</label>
+                    <input type="file" id="picture" name="picture"><br>
+                </div>
+            </div>       
+            <button class="btn btn-success" type="button" id="submitTicket" onclick="submitNotification()">Submit</button>
+            <button class="btn btn-secondary" type="button" id="cancelTicket">Cancel</button>
+        </form>
+    </div>        
+    </div>
+
+    
+    <div id="userTickets" class=" container-fluid bg-dark p-5 " >
 
         <!-- User's tickets will be displayed here -->
     </div>
 
-    <div id="ticketForm" style="display: none;">
-        <form id="ticketFormContent">
-            {% csrf_token %}
-            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required><br>
-        
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required></textarea><br>
-        
-            <!-- Add an input field for the Apartment -->
-            <label for="apartment">Apartment:</label>
-            <select id="apartmentNumber">
-                <!-- <option value="">All</option> -->
-            </select>            
-            <br>
-            
-            <label for="contact">Contact number:</label>
-            <input type="text" id="contact" name="contact" required><br>
-        
-            <!-- Add a dropdown menu for the Category field -->
-            <label for="category">Category:</label>
-            <select id="category" name="category" required>
-                <option value="electricity">Electricity</option>
-                <option value="plumber">Plumber</option>
-                <option value="structures">Structures</option>
-                <option value="locksmith">Locksmith</option>
-            </select><br>
-        
-            <!-- New input field for file upload -->
-            <label for="picture">Picture:</label>
-            <input type="file" id="picture" name="picture"><br>
-                    
-            <button type="button" id="submitTicket" onclick="submitNotification()">Submit</button>
-            <button type="button" id="cancelTicket">Cancel</button>
-        </form>
-    </div>        
     
 
     <script type="text/babel" src="{% static 'guestServicedesk/guestindex.js' %}"></script>
@@ -75,5 +95,4 @@
         }
         populateApartmentNumbers();
     </script>
-</body>
-</html>
+{% endblock %}

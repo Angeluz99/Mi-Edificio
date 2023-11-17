@@ -26,17 +26,17 @@ function loadUserTickets() {
                     console.log(ticket.id)
 
                     ticketDiv.innerHTML = `
-                        <h3>${ticket.title}</h3>
-                        <p>ID: ${ticket.id}</p>
-                        
-                        <p>Description: ${ticket.description}</p>
+                    <div class=" container-sm bg-info text-center rounded border border-success m-5">
+                        <p class="text-light" >Ticket ${ticket.id}</p>
+                        <h3 class="text-danger">${ticket.title}</h3>
+                        <h5>Description: ${ticket.description}</h5>
                         <p>Category: ${ticket.category}</p>
                         <p>Apartment: ${ticket.apartment}</p>
-                        <p>Status: ${ticket.status}</p>
-                        <p>Comments: ${ticket.comments}</p>
-                        
+                        <h4 class="text-light">Status: ${ticket.status}</h4>
+                        <h5>Comments: ${ticket.comments}</h5>
                         <p>Created At: ${ticket.created_at}</p>
-                        <a href="#" class="delete-ticket" data-ticket-id="${ticket.id}">Delete</a>
+                        <a href="#" class="delete-ticket btn btn-secondary" data-ticket-id="${ticket.id}">Delete</a>
+                    </div>
                     `;
                     userTicketsContainer.appendChild(ticketDiv);
                 });
