@@ -4,24 +4,26 @@
 
 
 {% block body %}
-<div class="row bg-info text-light">
-    <h2 class="  col-6 m-2">Welcome, {{ user.username }}!</h2>
-    <img src="{% static "guestServicedesk/images/mantenimiento.jpg" %}" alt="LOGO" class="offset-md-10" style="width: 100px;">
-</div>
-<div class="row">
-    <div class="col-6 offset-10">User Type: Guest</div>
-</div>
-    <div class="row">
-        <a class="col-6 offset-10" href="{% url 'login' %}" id="logout-link">Logout</a>
+<div class="container head border bg-dark border-light rounded ">
+    <div class="row d-flex text-dark justify-content-between align-items-center">
+        <h1 class="col-6 pl-4"><i class="bi bi-key-fill text-light"></i> Hi, {{ user.username }}!</h1>        
+        <div class="col-4 pl-5 d-flex justify-content-center"><img src="{% static "guestServicedesk/images/home-maintenance.png" %}" alt="LOGO"></div>
     </div>
+    <div class="row d-flex justify-content-end text-light border border-danger ">
+        <h3 class="col-3 d-flex justify-content-center ml-5 bg-info border border-light rounded"><i class="bi bi-person-rolodex"></i> Guest</h3>
+    </div>
+    <div class="row d-flex justify-content-between align-items-start">
+        <button class="col-2 btn btn-success m-2 ml-5" id="openTicketFormButton"><i class="bi bi-ticket-detailed"></i> Create Ticket</button>
+        <a class="col-6 d-flex justify-content-end align-items-end text-light mr-5" href="{% url 'login' %}" id="logout-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
+    </div>
+</div>
 
 
-    <button class="m-3 btn btn-success" id="openTicketFormButton">Create Ticket</button>
-    <div id="submittedNotification"></div>
+<div class="container text-light text-center" id="submittedNotification"></div>
 
 
-    <div class="container">
-    <div id="ticketForm" style="display: none;" class="p-3 space-between">
+   <div class="container bg-info" >
+    <div class="  text-center" id="ticketForm" style="display: none;" >
         <form id="ticketFormContent">
             {% csrf_token %}
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
@@ -38,11 +40,15 @@
 
             <div class="row">
                 <div class="col-6">
-                    <label for="apartment">Apartment:</label>
-                    <select id="apartmentNumber">
-                        <!-- <option value="">All</option> -->
-                    </select>            
+                    <label for="category">Category:</label>
+                    <select id="category" name="category" required>
+                        <option value="electricity">Electricity</option>
+                        <option value="plumber">Plumber</option>
+                        <option value="structures">Structures</option>
+                        <option value="locksmith">Locksmith</option>
+                    </select><br>
                 </div>
+
         
                 <div class="col-6">
                     <label for="contact">Contact number:</label>
@@ -52,13 +58,10 @@
 
             <div class="row">
                 <div class="col-6">
-                    <label for="category">Category:</label>
-                    <select id="category" name="category" required>
-                        <option value="electricity">Electricity</option>
-                        <option value="plumber">Plumber</option>
-                        <option value="structures">Structures</option>
-                        <option value="locksmith">Locksmith</option>
-                    </select><br>
+                    <label for="apartment">Apartment:</label>
+                    <select id="apartmentNumber">
+                        <!-- <option value="">All</option> -->
+                    </select>            
                 </div>
                 
                 <div class="col-6">
@@ -70,10 +73,10 @@
             <button class="btn btn-secondary" type="button" id="cancelTicket">Cancel</button>
         </form>
     </div>        
-    </div>
-
+  
+</div>
     
-    <div id="userTickets" class=" container-fluid bg-dark p-5 " >
+    <div id="userTickets" class=" container-fluid  pr-5 py-3" >
 
         <!-- User's tickets will be displayed here -->
     </div>

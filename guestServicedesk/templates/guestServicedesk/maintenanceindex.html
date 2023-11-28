@@ -4,51 +4,78 @@
 
 {% block body %}
 
+
     <!-- heading -->
-    <div class="row bg-info text-light">
-        <div class="col-7"><h2 class="  col-6 m-2"><i class="bi bi-wrench-adjustable-circle-fill"></i> Welcome, {{ user.username }}!</h2></div>
-        <div class="col-4" ><img src="{% static "guestServicedesk/images/mantenimiento.jpg" %}" alt="Logo" class="offset-md-10" style="width: 100px;"></div>
-    </div>
-    <div class="row  bg-info">
-        <div class="col-6 offset-10">Maintenance User</div>
-    </div>
-        <div class="row">
+    <div class="container head border border-dark rounded pl-3">
+        <div class="row d-flex text-dark justify-content-between align-items-center">
+            <h1 class="col-6 pl-4"><i class="bi bi-wrench-adjustable-circle-fill"></i> Welcome, {{ user.username }}!</h1>
+            <div class="col-6 d-flex justify-content-end"><img src="{% static "guestServicedesk/images/home-maintenance.png" %}" alt="LOGO"></div>
+        </div>
+        <div class="row d-flex justify-content-start text-light ">
+            <h3 class="col-5 d-flex justify-content-center bg-info border rounded ml-4"><i class="bi bi-person-rolodex"></i> Maintenance</h3>
+        </div>
+        <div class="row d-flex justify-content-between align-items-start">
             <a class="col-6 offset-10" href="{% url 'login' %}" id="logout-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
         </div>
+    </div>
 
     <!--     Search -->
-    <div class="row m-3">
-        <div class="col-6">
-            <label class="form-label" for="apartmentNumber"><i class="bi bi-door-closed"></i>Apartment Number:</label>
-            <select class="form-control" id="apartmentNumber">
-                <option value="">All</option>
-            </select>
+    <div class="container">
+        <div class="row m-3">
+            <div class="col-5">
+                <label class="form-label" for="apartmentNumber"><i class="bi bi-door-closed"></i>Apartment</label>
+                <select class="form-control" id="apartmentNumber">
+                    <option value="">All</option>
+                </select>
+            </div>
+        
+            <div class="col-5">
+                <label class="form-label" for="category"><i class="bi bi-tools"></i> Category:</label>
+                <select class="form-control" id="categorySearch">
+                    <option value="">All</option>
+                    <option value="electricity">Electricity</option>
+                    <option value="plumber">Plumber</option>
+                    <option value="structures">Structures</option>
+                    <option value="locksmith">Locksmith</option>
+                </select>
+            </div>
+
+            <div class="col-2 d-flex align-items-end">
+                <button class="btn btn-success m-1" id="searchButton"><i class="bi bi-search"></i> Search</button>
+            </div>
         </div>
 
-        <div class="col-6">
-            <label class="form-label" for="category"><i class="bi bi-tools"></i> Category:</label>
-            <select class="form-control" id="category">
-                <option value="">All</option>
-                <option value="electricity">Electricity</option>
-                <option value="plumber">Plumber</option>
-                <option value="structures">Structures</option>
-                <option value="locksmith">Locksmith</option>
-            </select>
+    
+
+    <div class="container text-center ">
+    <div class="row ">
+        <div class="col-12 mt-3 pb-0 ">
+            <button class=" btn btn-info"  id="oldestFirst" onclick="reArrangeHandler()"><i class="bi bi-arrows-vertical fs-8"></i>Toggle timeline order</button>
         </div>
+    </div>
+    </div>
+    </div>
+            
+    <div class="container">
+    <div id="submittedNotification" class="text-info"></div>
     </div>
 
-    <div class="row">
-        <div class="col-6 offset-1">
-            <button class="btn btn-success m-1" id="searchButton"><i class="bi bi-search"></i> Search</button>
+        <div id="allusersTickets" class="container-fluid flex-column-reverse p-1 my-10" style="z-index: 0;">
+        
+            <!-- All user tickets will be displayed here -->
+
+
         </div>
-        <div class="col-5 ">
-            <button class="m-1 btn btn-info"  id="oldestFirst" onclick="reArrangeHandler()"><i class="bi bi-arrows-vertical fs-8"></i>Toggle timeline order</button>
+
+        <div class="container text-center">
+        <button class="btn btn-primary" id="scrollToTopBtn" onclick="scrollToTop()">Scroll to Top</button>
         </div>
-    </div>
+
+</div>
 
 
     <!--     Update ticket form -->
-    <div id="ticketForm" class="col-4 bg-info " style="display: none;">
+    <div id="ticketForm" class="col-5 bg-info " style="display: none;">
         <h2 id="formTitle" class="text-light">Ticket</h2>
 
         <form id="updateForm" class="text-center">
@@ -72,14 +99,7 @@
             <button  class="btn btn-secondary" type="button" id="cancelTicket">Close</button>
         </form>
     </div>
-        
 
-    <div id="submittedNotification" class="text-info"></div>
-
-    <div id="allusersTickets" class="container flex-column-reverse border rounded border-light p-1" style="z-index: 0;">
-        
-        <!-- All user tickets will be displayed here -->
-    </div>
 
         
     <script type="text/babel" src="{% static 'guestServicedesk/maintenanceindex.js' %}"></script>
@@ -95,6 +115,14 @@
             }
         }
         populateApartmentNumbers();
+
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Optional: adds smooth scrolling
+            });
+        }
     </script>
 {% endblock %}
 

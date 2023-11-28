@@ -1,33 +1,88 @@
-body{
+
+@import url('https://fonts.googleapis.com/css2?family=Dosis&family=Kanit:wght@200&family=Ubuntu&display=swap');
+
+:root {
+    --head: Ubuntu;
+    --sub: Kanit;
+    --text: Dosis;
+  }
+
+ 
+
+/* .contain-stick{
+   position: sticky;
+   z-index: 100;
+} */
+
+ /* .head{
     background-color: #90ee90;
-    overflow-x: hidden;
-    /* padding: 1rem; */
     
 
-}
+ } */
 
+ .head h1{
 
+    font-family: var(--head);
+    text-shadow: 2px 2px 5px rgb(218, 203, 203);
+
+ }
+ .head h3{
+    font-family: var(--text);
+
+ }
+
+ button{
+    font-family: var(--text);
+
+ }
+
+ a{
+    font-family: var(--text);
+
+ }
 #ticketForm{
-    position: sticky;
-    top: 25px; 
+    /* position: sticky; */
+    top: 10px; 
     left: 720px; 
     z-index: 1000;
     width: 100%;
     height: 100%;
-    
+    font-family: var(--sub);
+    overflow-y: visible; 
+
+
 }
 
+#ticket-guest{
+   font-family: var(--sub);
 
+}
 #ticketImage{
-    width: 200px;
-    max-height: 200px;
+    width: 400px;
+    max-height: 400px;
 }
 
 #submittedNotification{
     position: sticky;
-    top: 25px; 
-    left: 800px; 
+
     z-index: 1000;
-    width: 400px;
     height: 100%;
+    font-family: var(--head);
+
 }
+#register-head, #login-head{
+   font-family: var(--head);
+
+}
+
+#issue, #description, #status, #comments, #category{
+   font-size: x-small;
+   font-family: var(--head);
+
+   color: black;
+}
+
+.forms-user{
+   font-family: var(--text);
+}
+

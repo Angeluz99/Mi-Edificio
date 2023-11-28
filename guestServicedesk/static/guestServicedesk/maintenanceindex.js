@@ -26,7 +26,7 @@ function loadGuestTickets() {
                 guestTickets.forEach(ticket => {
                     const ticketDiv = document.createElement("div");
                     ticketDiv.innerHTML = `
-                    <div class=" col-6 bg-info text-center rounded border border-success m-3 d-flex flex-column align-self-start">
+                    <div class=" col-6 bg-info text-center border rounded  border-success m-3 d-flex flex-column align-self-start">
 
                         <h6 class="text-light" ><i class="bi bi-door-closed"></i> ${ticket.apartment}. Ticket ${ticket.id}. </h6>
                         <h5><i class="bi bi-person-rolodex"></i> By ${ticket.username} at ${ticket.created_at}</h5>
@@ -51,6 +51,8 @@ function loadGuestTickets() {
 
                         // Show the form and populate it with ticket data
                         ticketForm.style.display = "block";
+                        ticketForm.style.position = "fixed";
+
                         formTitle.innerText = `Ticket ${ticketID}`;
 
                         // Find the selected ticket in the guestTickets array
@@ -155,7 +157,7 @@ function submitNotification() {
 // Search handle the Apartment number and Category search
 document.getElementById("searchButton").addEventListener("click", () => {
     const apartmentNumber = document.getElementById("apartmentNumber").value;
-    const category = document.getElementById("category").value;  // Get the selected category
+    const category = document.getElementById("categorySearch").value;  // Get the selected category
 
     let url = '/get_guest_tickets/?'; // Initialize the URL
 

@@ -1,5 +1,6 @@
-pre pulate comments and status
-sticky and absolute position update form
+move GUEST to end
+high light link log ou
+biorder light on tkts
 
 
 bootstrap 12

@@ -26,16 +26,28 @@ function loadUserTickets() {
                     console.log(ticket.id)
 
                     ticketDiv.innerHTML = `
-                    <div class=" container-sm bg-info text-center rounded border border-success m-5">
-                        <p class="text-light" >Ticket ${ticket.id}</p>
-                        <h3 class="text-danger">${ticket.title}</h3>
-                        <h5>Description: ${ticket.description}</h5>
-                        <p>Category: ${ticket.category}</p>
-                        <p>Apartment: ${ticket.apartment}</p>
-                        <h4 class="text-light">Status: ${ticket.status}</h4>
-                        <h5>Comments: ${ticket.comments}</h5>
-                        <p>Created At: ${ticket.created_at}</p>
-                        <a href="#" class="delete-ticket btn btn-secondary" data-ticket-id="${ticket.id}">Delete</a>
+                    <div id="ticket-guest" class=" container bg-info border rounded  border-success m-5 text-light">
+                        <div class="row bg-dark" >
+                            <p class=" col-6 " ><i class="bi bi-ticket-detailed"></i> Ticket ${ticket.id}</p>
+                            <p class="col-6 text-light d-flex justify-content-end"><i class="bi bi-door-closed"></i>Apartment ${ticket.apartment}</p>
+                        </div>
+                        <div class="row " >
+                            <h3 class="col-6 "> <p id="issue"> Issue:</p>${ticket.title}</h3>
+                            <h6 class="col-4  d-flex justify-content-end"><p id="category" class="m-1">Category:</p> ${ticket.category}</h6>
+                        </div>
+                        <div class="row text-center " >
+                            <h5 class="col-12"><p id="description">Description: </p>${ticket.description}</h5>
+                        </div>
+                        <div class="row bg-primary" >
+                            <h4 class=" col-6 text-light"> <p id="status">Status: </p> ${ticket.status}</h4>
+                        </div>
+                        <div class="row text-center bg-primary" >
+                            <h5 class=" col-12"><p id="comments">Staff comments:</p> ${ticket.comments}</h5>
+                        </div>
+                        <div class="row  d-flex justify-content-between " >
+                            <p class=" col-6 text-light">Created at ${ticket.created_at}</p>
+                            <a href="#" class=" col-3 delete-ticket  btn btn-secondary" data-ticket-id="${ticket.id}">Delete</a>
+                        </div>
                     </div>
                     `;
                     userTicketsContainer.appendChild(ticketDiv);
@@ -157,7 +169,7 @@ function submitNotification(){
       
       setTimeout(() => {
           ReactDOM.unmountComponentAtNode(document.getElementById('submittedNotification'));
-        }, 3000); 
+        }, 4000); 
 }
 // Delete ticket
 // Attach an event listener to the parent container using event delegation

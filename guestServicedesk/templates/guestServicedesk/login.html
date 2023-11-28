@@ -4,16 +4,16 @@
 
 {% block body %}
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-    <div class=" rounded bg-secondary p-3 text-center">    
+    <div  class=" forms-user rounded bg-info p-3 text-center">    
         <form method="post" class="text-center centered-div">
-        <h2>Login</h2>
+        <h2 id="login-head" >Login</h2>
         {% csrf_token %}
-            <label class="form-label" for="username">Username:</label>
+            <label class="form-label text-light" for="username">Username:</label>
             <input class="form-control" type="text" name="username" required><br>
-            <label class="form-label" for="password">Password:</label>
-            <input class="form-control" type="password" name="password" required><br>
+            <label class="form-label text-light" for="password">Password:</label>
+            <input class="form-control text-light" type="password" name="password" required><br>
             <button class="btn btn-info" type="submit">Login</button>
-        <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+        <p>Don't have an account? <a class="text-light" href="{% url 'register' %}">Register</a></p>
     </form>
 
 </div>

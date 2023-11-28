@@ -4,23 +4,23 @@
 
 {% block body %}
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-    <div class=" rounded bg-secondary p-3 text-center">
+    <div class=" rounded bg-info p-3 text-center">
         <form method="post" class="text-center centered-div">
             {% csrf_token %}
-            <h2>Register</h2>
-            <label class="form-label" for="username" placeholder="Create a username...">Username:</label>
+            <h2 id="register-head">Register</h2>
+            <label class="form-label text-light" for="username" placeholder="Create a username...">Username:</label>
             <input class="form-control" type="text" name="username" required><br>
-            <label for="password" placeholder="Create a password...">Password:</label>
+            <label  class="text-light" for="password" placeholder="Create a password...">Password:</label>
             <input type="password" name="password" required><br>
             
-            <label class="form-label text-left" for="user_type">User Type:</label>
+            <label class="form-label text-light text-left" for="user_type">User Type:</label>
             <select class="form-control" name="user_type" required>
                 <option value="guest">Guest</option>
                 <option value="maintenance">Maintenance</option>
             </select><br>
             
             <button class="btn btn-info" type="submit">Register</button>
-            <p>Do you have an account already? <a href="{% url 'login' %}">Log in</a></p>
+            <p>Do you have an account already? <a  class="text-light" href="{% url 'login' %}">Log in</a></p>
     
         </form>
         </div>
