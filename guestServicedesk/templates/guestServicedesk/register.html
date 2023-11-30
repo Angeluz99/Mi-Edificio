@@ -9,12 +9,12 @@
             {% csrf_token %}
             <h2 id="register-head">Register</h2>
             <label class="form-label text-light" for="username" placeholder="Create a username...">Username:</label>
-            <input class="form-control" type="text" name="username" required><br>
+            <input id="username" class="form-control" type="text" name="username" required><br>
             <label  class="text-light" for="password" placeholder="Create a password...">Password:</label>
-            <input type="password" name="password" required><br>
+            <input id="password" type="password" name="password" required><br>
             
             <label class="form-label text-light text-left" for="user_type">User Type:</label>
-            <select class="form-control" name="user_type" required>
+            <select class="form-control" id="user_type" name="user_type" required>
                 <option value="guest">Guest</option>
                 <option value="maintenance">Maintenance</option>
             </select><br>

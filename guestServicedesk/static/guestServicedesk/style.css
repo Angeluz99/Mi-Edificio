@@ -7,18 +7,16 @@
     --text: Dosis;
   }
 
- 
+ .container{
+   box-shadow: 2px 2px 5px rgb(218, 203, 203) ;
+ }
 
-/* .contain-stick{
+#head-guest{
    position: sticky;
    z-index: 100;
-} */
+   top: 0;
+}
 
- /* .head{
-    background-color: #90ee90;
-    
-
- } */
 
  .head h1{
 
@@ -43,17 +41,16 @@
 #ticketForm{
     /* position: sticky; */
     top: 10px; 
-    left: 720px; 
+    left: 700px; 
     z-index: 1000;
     width: 100%;
-    height: 100%;
+    height: 95%;
     font-family: var(--sub);
-    overflow-y: visible; 
-
+    overflow-y:auto;
 
 }
 
-#ticket-guest{
+#ticket-guest, .bg-info{
    font-family: var(--sub);
 
 }
@@ -75,7 +72,7 @@
 
 }
 
-#issue, #description, #status, #comments, #category{
+#issue, #description, #status-label, #comments-label, #category{
    font-size: x-small;
    font-family: var(--head);
 

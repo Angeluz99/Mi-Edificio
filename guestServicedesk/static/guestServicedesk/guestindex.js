@@ -26,14 +26,14 @@ function loadUserTickets() {
                     console.log(ticket.id)
 
                     ticketDiv.innerHTML = `
-                    <div id="ticket-guest" class=" container bg-info border rounded  border-success m-5 text-light">
+                    <div id="ticket-guest" class=" container bg-info border rounded  border-light m-5 text-light">
                         <div class="row bg-dark" >
                             <p class=" col-6 " ><i class="bi bi-ticket-detailed"></i> Ticket ${ticket.id}</p>
                             <p class="col-6 text-light d-flex justify-content-end"><i class="bi bi-door-closed"></i>Apartment ${ticket.apartment}</p>
                         </div>
-                        <div class="row " >
-                            <h3 class="col-6 "> <p id="issue"> Issue:</p>${ticket.title}</h3>
-                            <h6 class="col-4  d-flex justify-content-end"><p id="category" class="m-1">Category:</p> ${ticket.category}</h6>
+                        <div class="row d-flex justify-conten-between " >
+                            <h3 class="col-8 "> <p id="issue"> Issue:</p>${ticket.title}</h3>
+                            <h4 class="col-4 "><p id="category" >Category:</p> ${ticket.category}</h4>
                         </div>
                         <div class="row text-center " >
                             <h5 class="col-12"><p id="description">Description: </p>${ticket.description}</h5>
@@ -46,7 +46,7 @@ function loadUserTickets() {
                         </div>
                         <div class="row  d-flex justify-content-between " >
                             <p class=" col-6 text-light">Created at ${ticket.created_at}</p>
-                            <a href="#" class=" col-3 delete-ticket  btn btn-secondary" data-ticket-id="${ticket.id}">Delete</a>
+                            <a href="#" class=" col-3 delete-ticket  btn btn-dark" data-ticket-id="${ticket.id}">Delete</a>
                         </div>
                     </div>
                     `;

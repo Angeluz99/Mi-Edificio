@@ -13,7 +13,7 @@ class Ticket(models.Model):
     description = models.TextField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     apartment = models.PositiveIntegerField() 
-    contact=models.CharField(max_length=12, default='Has not been provided')
+    contact=models.CharField(max_length=12, default='Not provided')
 
     
     CATEGORY_CHOICES = (
