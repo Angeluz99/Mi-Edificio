@@ -46,7 +46,7 @@ function loadUserTickets() {
                         </div>
                         <div class="row  d-flex justify-content-between " >
                             <p class=" col-6 text-light">Created at ${ticket.created_at}</p>
-                            <a href="#" class=" col-3 delete-ticket  btn btn-dark" data-ticket-id="${ticket.id}">Delete</a>
+                            <a href="#" id="delete-button" class=" col-3 delete-ticket  btn btn-dark" data-ticket-id="${ticket.id}">Delete</a>
                         </div>
                     </div>
                     `;

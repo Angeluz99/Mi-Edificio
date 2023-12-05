@@ -39,7 +39,7 @@
 
  }
 #ticketForm{
-    /* position: sticky; */
+    /* position: sticky;  */
     top: 10px; 
     left: 700px; 
     z-index: 1000;
@@ -72,7 +72,7 @@
 
 }
 
-#issue, #description, #status-label, #comments-label, #category{
+#issue, #description, #status, #comments, #category{
    font-size: x-small;
    font-family: var(--head);
 
@@ -83,3 +83,6 @@
    font-family: var(--text);
 }
 
+#allusersTickets{
+   text-shadow: none;
+}

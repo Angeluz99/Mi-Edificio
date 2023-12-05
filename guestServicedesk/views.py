@@ -162,7 +162,7 @@ def register_view(request):
         password = request.POST['password']
         user_type = request.POST['user_type']
         
-        print(f"Registering user: {username}, Type: {user_type}")
+        # print(f"Registering user: {username}, Type: {user_type}")
 
         # Create a new user using the CustomUser model
         user = CustomUser.objects.create_user(username=username, password=password, user_type=user_type)
@@ -201,11 +201,11 @@ def login_view(request):
     return render(request, 'guestServicedesk/login.html', {'form': form})
 
 # View for guest index (requires login)
-# @login_required
+@login_required
 def guest_index(request):
     return render(request, 'guestServicedesk/guestindex.html')
 
 # View for maintenance index (requires login)
-# @login_required
+@login_required
 def maintenance_index(request):
     return render(request, 'guestServicedesk/maintenanceindex.html')

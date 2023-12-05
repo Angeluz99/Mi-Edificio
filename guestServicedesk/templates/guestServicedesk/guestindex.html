@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col-6">
                     <label for="category">Category:</label>
-                    <select  name="category" required>
+                    <select  name="category" id="category" required>
                         <option value="electricity">Electricity</option>
                         <option value="plumber">Plumber</option>
                         <option value="structures">Structures</option>
@@ -106,3 +106,7 @@
         }
     </script>
 {% endblock %}
+
+<!-- const category = document.getElementById("category").value;
+guestindex.js:103 Uncaught TypeError: Cannot read properties of null (reading 'value')
+    at HTMLButtonElement.<anonymous> (<anonymous>:78:53) -->

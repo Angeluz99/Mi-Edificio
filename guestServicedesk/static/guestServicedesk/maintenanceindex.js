@@ -30,7 +30,7 @@ function loadGuestTickets() {
 
                         <div class="row bg-dark d-flex justify-content-around"> 
                             <h5 class="col-4 text-light" ><i class="bi bi-door-closed"></i> ${ticket.apartment} </h5>
-                            <p class="col-4 text-dark"><i class="bi bi-tools"></i> ${ticket.category}</p>
+                            <p class="col-4 text-light"><i class="bi bi-tools"></i> ${ticket.category}</p>
 
                             <h4 class="col-4 text-light" >Ticket ${ticket.id}</h4>
 
@@ -205,35 +205,35 @@ document.getElementById("searchButton").addEventListener("click", () => {
                 guestTickets.forEach(ticket => {
                     const ticketDiv = document.createElement("div");
                     ticketDiv.innerHTML = `
-                    <div id="ticket-guest" class=" container col-6 bg-info rounded border border-light">
+                    <div id="ticket-guest" class=" container col-6 bg-info rounded border border-light m-3">
 
-                    <div class="row bg-dark d-flex justify-content-around"> 
-                        <h5 class="col-4 text-light" ><i class="bi bi-door-closed"></i> ${ticket.apartment} </h5>
-                        <p class="col-4 text-dark"><i class="bi bi-tools"></i> ${ticket.category}</p>
+                        <div class="row bg-dark d-flex justify-content-around"> 
+                            <h5 class="col-4 text-light" ><i class="bi bi-door-closed"></i> ${ticket.apartment} </h5>
+                            <p class="col-4 text-light"><i class="bi bi-tools"></i> ${ticket.category}</p>
 
-                        <h4 class="col-4 text-light" >Ticket ${ticket.id}</h4>
+                            <h4 class="col-4 text-light" >Ticket ${ticket.id}</h4>
+
+                        </div>
+                       
+                        <div class="row d-flex justify-content-start"> 
+                            <h5 class="col-4 text-light"><strong>${ticket.title}</strong> </h5>  
+                            <h5 class="col-8 text-light"> ${ticket.description} </h5>                      
+                        </div>
+
+                        <div class="row d-flex justify-content-center"> 
+                            <h6 class="col-8 text-light" ><i class="bi bi-person-rolodex"></i> By ${ticket.username} at <strong>${ticket.created_at}</strong>  </h6>
+                            <p class="col-4 text-light"><i class="bi bi-telephone-inbound-fill"></i> ${ticket.contact}</p> 
+                        </div>
+                        <div class="row d-flex justify-content-center bg-primary"> 
+                            <h5 class="col-4 text-light"><p id="status-label">Status: </p> ${ticket.status}</h5>
+                            <h5 class="col-8 text-light"><p id="comments-label">Staff comments:</p> ${ticket.comments}</h5>   
+
+                        </div>
+                        <div class="row d-flex justify-content-center"> 
+                            <button class=" col-6 viewTicketButton btn btn-dark" data-id="${ticket.id}">See picture and update ticket</button>
+                        </div>
 
                     </div>
-                   
-                    <div class="row d-flex justify-content-start"> 
-                        <h5 class="col-4 text-light"><strong>${ticket.title}</strong> </h5>  
-                        <h5 class="col-8 text-light"> ${ticket.description} </h5>                      
-                    </div>
-
-                    <div class="row d-flex justify-content-center"> 
-                        <h6 class="col-8 text-light" ><i class="bi bi-person-rolodex"></i> By ${ticket.username} at <strong>${ticket.created_at}</strong>  </h6>
-                        <p class="col-4 text-light"><i class="bi bi-telephone-inbound-fill"></i> ${ticket.contact}</p> 
-                    </div>
-                    <div class="row d-flex justify-content-center bg-primary"> 
-                        <h5 class="col-4 text-light"><p id="status">Status: </p> ${ticket.status}</h5>
-                        <h5 class="col-8 text-light"><p id="comments">Staff comments:</p> ${ticket.comments}</h5>   
-
-                    </div>
-                    <div class="row d-flex justify-content-center"> 
-                        <button class=" col-6 viewTicketButton btn btn-dark" data-id="${ticket.id}">See picture and update ticket</button>
-                    </div>
-
-                </div>
                     `;
                     allUsersTicketsContainer.appendChild(ticketDiv);
                 });
