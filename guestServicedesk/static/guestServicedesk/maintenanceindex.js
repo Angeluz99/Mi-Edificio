@@ -28,26 +28,25 @@ function loadGuestTickets() {
                     ticketDiv.innerHTML = `
                     <div id="ticket-guest" class=" container col-6 bg-info rounded border border-light m-3">
 
-                        <div class="row bg-dark d-flex justify-content-around"> 
-                            <h5 class="col-4 text-light" ><i class="bi bi-door-closed"></i> ${ticket.apartment} </h5>
-                            <p class="col-4 text-light"><i class="bi bi-tools"></i> ${ticket.category}</p>
-
-                            <h4 class="col-4 text-light" >Ticket ${ticket.id}</h4>
+                        <div class="row bg-dark d-flex justify-content-between"> 
+                            <h5 class="col-4 text-light text-sm text-md text-lg text-xl text-nowrap" ><i class="bi bi-door-closed"></i> ${ticket.apartment} </h5>
+                            <p class="col-4 text-light text-sm text-md text-lg text-xl text-center"><i class="bi bi-tools"></i> ${ticket.category}</p>
+                            <h4 class="col-4 text-light text-sm text-md text-lg text-xl text-nowrap" ><i class="bi bi-ticket-detailed"></i> ${ticket.id}</h4>
 
                         </div>
                        
-                        <div class="row d-flex justify-content-start"> 
-                            <h5 class="col-4 text-light"><strong>${ticket.title}</strong> </h5>  
-                            <h5 class="col-8 text-light"> ${ticket.description} </h5>                      
+                        <div class="row d-flex justify-content-around"> 
+                            <h5 class="col-4 text-light text-sm text-md text-lg text-xl"><strong>${ticket.title}</strong> </h5>  
+                            <h5 class="col-8 text-light text-sm text-md text-lg text-xl "> ${ticket.description} </h5>                      
                         </div>
 
-                        <div class="row d-flex justify-content-center"> 
-                            <h6 class="col-8 text-light" ><i class="bi bi-person-rolodex"></i> By ${ticket.username} at <strong>${ticket.created_at}</strong>  </h6>
-                            <p class="col-4 text-light"><i class="bi bi-telephone-inbound-fill"></i> ${ticket.contact}</p> 
+                        <div class="row d-flex justify-content-center align-items-end"> 
+                            <h6 class="col-8 text-light text-sm text-md text-lg text-xl" ><i class="bi bi-person-rolodex"></i> By ${ticket.username} at <strong>${ticket.created_at}</strong>  </h6>
+                            <p class="col-4 text-light text-sm text-md text-lg text-xl text-break"><i class="bi bi-telephone-inbound-fill"></i> ${ticket.contact}</p> 
                         </div>
                         <div class="row d-flex justify-content-center bg-primary"> 
-                            <h5 class="col-4 text-light"><p id="status-label">Status: </p> ${ticket.status}</h5>
-                            <h5 class="col-8 text-light"><p id="comments-label">Staff comments:</p> ${ticket.comments}</h5>   
+                            <h6 class="col-4 text-light text-sm text-md text-lg text-xl"><p id="status-label">Status: </p> <strong>${ticket.status}</strong> </h6>
+                            <h5 class="col-8 text-light text-sm text-md text-lg text-xl text-break"><p id="comments-label">Staff comments:</p> ${ticket.comments}</h5>   
 
                         </div>
                         <div class="row d-flex justify-content-center"> 
@@ -211,12 +210,12 @@ document.getElementById("searchButton").addEventListener("click", () => {
                             <h5 class="col-4 text-light" ><i class="bi bi-door-closed"></i> ${ticket.apartment} </h5>
                             <p class="col-4 text-light"><i class="bi bi-tools"></i> ${ticket.category}</p>
 
-                            <h4 class="col-4 text-light" >Ticket ${ticket.id}</h4>
+                            <h4 class="col-4 text-light" ><i class="bi bi-ticket-detailed"></i> ${ticket.id}</h4>
 
                         </div>
                        
                         <div class="row d-flex justify-content-start"> 
-                            <h5 class="col-4 text-light"><strong>${ticket.title}</strong> </h5>  
+                            <h5 class="col-4 text-light text-sm"><strong>${ticket.title}</strong> </h5>  
                             <h5 class="col-8 text-light"> ${ticket.description} </h5>                      
                         </div>
 

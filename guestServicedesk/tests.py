@@ -9,15 +9,13 @@ from django.test import LiveServerTestCase
 from .models import CustomUser
 import time
 
-class GuestInterfaceSeleniumTest(TestCase): #using LiveServerTestCase instead TestCase removes all the data from the test user automlly. SUPOSELLY
+class GuestRegisterLogSeleniumTest(TestCase): #using LiveServerTestCase instead TestCase removes all the data from the test user automlly. SUPOSELLY
     def setUp(self):
         # Set up the Selenium WebDriver using Chrome without specifying executable_path
         self.driver = Chrome()
 
     def tearDown(self):
-        # Delete the test user
-        # CustomUser.objects.filter(username="TestUser").delete()
-        # Close the Selenium WebDriver
+
         self.driver.quit()
 
     def test_register_and_login_user(self):
@@ -26,6 +24,8 @@ class GuestInterfaceSeleniumTest(TestCase): #using LiveServerTestCase instead Te
         testGuestPassword = "TestPassword3"
         # Open the registration page
         self.driver.get("http://127.0.0.1:8000/register/")
+        self.driver.maximize_window()
+
 
         # Fill in the registration form
         self.driver.find_element(By.ID, "username").send_keys(testGuestUsername)
@@ -50,8 +50,7 @@ class GuestInterfaceSeleniumTest(TestCase): #using LiveServerTestCase instead Te
 
         
 
-        # Now, navigate to the login page
-        # self.driver.get("http://127.0.0.1:8000/")
+        # Now, it should redirect to the login page
         time.sleep(5)
 
         # Fill in the login form
@@ -62,10 +61,9 @@ class GuestInterfaceSeleniumTest(TestCase): #using LiveServerTestCase instead Te
         submit_button = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
         submit_button.click()
 
-        # Wait for the login to complete (you might need to wait for a redirect or a success message)
+        # Wait for the login to complete 
         time.sleep(1)
 
-       
         # Assert that the login was successful
         print(f"Current URL: {self.driver.current_url}")
         # Print a message before the assertion
@@ -79,7 +77,7 @@ class GuestInterfaceSeleniumTest(TestCase): #using LiveServerTestCase instead Te
 
         
 
-class MaintenanceInterfaceSeleniumTest(TestCase):
+class MaintenanceRegisterLogSeleniumTest(TestCase):
     def setUp(self):
         # Set up the Selenium WebDriver using Chrome without specifying executable_path
         self.driver = Chrome()
@@ -94,6 +92,8 @@ class MaintenanceInterfaceSeleniumTest(TestCase):
         testMaintenancePassword = "MTestPassword3"
         # Open the registration page
         self.driver.get("http://127.0.0.1:8000/register/")
+        self.driver.maximize_window()
+
 
         # Fill in the registration form
         self.driver.find_element(By.ID, "username").send_keys(testMaintenanceUsername)
@@ -140,12 +140,6 @@ class MaintenanceInterfaceSeleniumTest(TestCase):
 
 #test to create ticket and ensure it appears on maintenance
 
-# GuestPassWForTKTest
-# GuestUserNForTKTest  
-
-# MaintenanceUserNForTKTest
-
-# MaintenancePassWForTKTest
 
 class TickeFlowSeleniumTest(TestCase):
 
@@ -163,6 +157,8 @@ class TickeFlowSeleniumTest(TestCase):
         GuestPassWForTKTest = "password"
         #log in as guest
         self.driver.get("http://127.0.0.1:8000/")
+        self.driver.maximize_window()
+
 
         time.sleep(1)
         # Fill in the registration form
@@ -217,6 +213,11 @@ class TickeFlowSeleniumTest(TestCase):
 
         time.sleep(1)
 
+        rearrange_button = self.driver.find_element(By.ID, "oldestFirst")
+        rearrange_button.click()
+
+
+
         # Verify that the new ticket is added to the list
         user_tickets = self.driver.find_element(By.ID,"allusersTickets")
         self.assertIn("Test Ticket title", user_tickets.text)
@@ -237,10 +238,12 @@ class TickeFlowSeleniumTest(TestCase):
         # Submit the login form
         submit_button = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
         submit_button.click()
-        time.sleep(1)
+        time.sleep(3)
 
         # delete test ticket
         delete_button = self.driver.find_element(By.ID,"delete-button")
-        delete_button.click()
+
+        self.driver.execute_script("arguments[0].click();", delete_button)
+
 
         time.sleep(5)
