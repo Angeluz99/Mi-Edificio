@@ -1,5 +1,5 @@
 const openButton = document.getElementById("openTicketFormButton");
-const ticketForm = document.getElementById("ticketForm");
+const NewticketForm = document.getElementById("NewticketForm");
 const submitButton = document.getElementById("submitTicket");
 const cancelButton = document.getElementById("cancelTicket");
 const userTicketsContainer = document.getElementById("userTickets"); // Moved this outside the function
@@ -87,12 +87,12 @@ function displayTicketStatus(ticketID) {
 
 // Function to open the form as a pop-up
 openButton.addEventListener("click", () => {
-    ticketForm.style.display = "block";
+    NewticketForm.style.display = "block";
 });
 
 // Function to close the pop-up
 cancelButton.addEventListener("click", () => {
-    ticketForm.style.display = "none";
+    NewticketForm.style.display = "none";
 });
 
 // Handler to Submit a New ticket
@@ -137,7 +137,7 @@ submitButton.addEventListener("click", () => {
             console.log(data.message);
 
             // You can close the form here if needed
-            ticketForm.style.display = "none";
+            NewticketForm.style.display = "none";
 
             // Call loadUserTickets to update the ticket list
             loadUserTickets();

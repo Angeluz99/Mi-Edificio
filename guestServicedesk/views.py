@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
-# from .other_views import get_user_tickets  # Replace "other_views" with the correct module name
 from .models import CustomUser, Ticket
 from django.http import JsonResponse
 from django.template.defaultfilters import date as date_filter

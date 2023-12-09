@@ -4,6 +4,9 @@
 
 
 {% block body %}
+
+<div id="bodiv">    
+
 <div id="head-guest" class="container head border bg-dark border-light rounded ">
     <div class="row d-flex text-dark justify-content-between align-items-center">
         <h1 class="col-6 pl-4 text-light"><i class="bi bi-key-fill "></i> Hi, {{ user.username }}!</h1>        
@@ -23,7 +26,7 @@
 
 
    <div class="container bg-info" >
-    <div class="  text-center" id="ticketForm" style="display: none;" >
+    <div class="  text-center" id="NewticketForm" style="display: none;" >
         <form id="ticketFormContent">
             {% csrf_token %}
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
@@ -82,7 +85,7 @@
     </div>
 
 
-    
+</div>
 
     <script type="text/babel" src="{% static 'guestServicedesk/guestindex.js' %}"></script>
     <script>
@@ -107,6 +110,3 @@
     </script>
 {% endblock %}
 
-<!-- const category = document.getElementById("category").value;
-guestindex.js:103 Uncaught TypeError: Cannot read properties of null (reading 'value')
-    at HTMLButtonElement.<anonymous> (<anonymous>:78:53) -->

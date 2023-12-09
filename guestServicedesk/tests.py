@@ -44,25 +44,26 @@ class GuestRegisterLogSeleniumTest(TestCase): #using LiveServerTestCase instead 
         user_type_dropdown.select_by_visible_text("Guest")  # Replace "Guest" with the desired option text
 
         # Submit the form
-        time.sleep(4)
+        time.sleep(2)
         submit_button = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
         submit_button.click()
 
         
 
         # Now, it should redirect to the login page
-        time.sleep(5)
+        time.sleep(2)
 
         # Fill in the login form
         self.driver.find_element(By.ID, "username").send_keys(testGuestUsername)
         self.driver.find_element(By.ID, "password").send_keys(testGuestPassword)
+        time.sleep(1)
 
         # Submit the login form
         submit_button = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
         submit_button.click()
 
         # Wait for the login to complete 
-        time.sleep(1)
+        time.sleep(2)
 
         # Assert that the login was successful
         print(f"Current URL: {self.driver.current_url}")
@@ -118,11 +119,13 @@ class MaintenanceRegisterLogSeleniumTest(TestCase):
 
         #Redirect to login
 
-        time.sleep(5) #important give time to the elemnts to load.
+        time.sleep(3) #important give time to the elemnts to load.
 
         # Fill in the login form
         self.driver.find_element(By.ID, "username").send_keys(testMaintenanceUsername)
         self.driver.find_element(By.ID, "password").send_keys(testMaintenancePassword)
+        time.sleep(1)
+
 
         # Submit the login form
         submit_button = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
@@ -221,7 +224,7 @@ class TickeFlowSeleniumTest(TestCase):
         # Verify that the new ticket is added to the list
         user_tickets = self.driver.find_element(By.ID,"allusersTickets")
         self.assertIn("Test Ticket title", user_tickets.text)
-        time.sleep(5)
+        time.sleep(4)
         
 
         # log out
@@ -246,4 +249,4 @@ class TickeFlowSeleniumTest(TestCase):
         self.driver.execute_script("arguments[0].click();", delete_button)
 
 
-        time.sleep(5)
+        time.sleep(2)

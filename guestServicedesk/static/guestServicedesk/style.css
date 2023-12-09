@@ -7,6 +7,12 @@
     --text: Dosis;
   }
 
+#bodiv{
+display:grid;
+justify-content: center;
+align-items: center;
+}
+
  .container{
    box-shadow: 2px 2px 5px rgb(218, 203, 203) ;
  }
@@ -44,7 +50,7 @@
     left: 690px; 
     z-index: 1000;
     width: 35rem;
-    height: 40rem;
+    height: 35rem;
     font-family: var(--sub);
     overflow:auto;
 
@@ -90,14 +96,25 @@
    text-shadow: none;
 }
 
- @media only screen and (max-width: 600px) {
+#ticketForm{
+   font-family: var(--sub);
+   overflow:auto;
+   z-index: 1000;
 
+}
+
+
+/* # max, what is below that
+
+# min, what is over that */
+ @media only screen and (max-width: 600px) {
+ /* abajo de 600px */
    #ticketForm{
     
       top: 300px; 
       left: 250px; 
       width: 11rem;
-      height: 30rem;
+      height: 25rem;
   
   }
 
@@ -106,4 +123,47 @@
     max-height: 100px;
 }
 
+#head-guest{
+   margin-left: 1rem ;
+   overflow: hidden;
+}
+
+#userTickets{
+   margin-left: -2rem;
+}
+
 } 
+
+
+@media only screen and (min-width: 1000px) {
+
+   #ticketForm{
+    
+      top: 300px; 
+      left: 530px; 
+      width: 28rem;
+      /*height: 30rem; */
+  
+  }
+
+  /* #head-guest{
+   margin-left: 1rem ;
+   } */
+
+   #userTickets{
+      margin-left: -3rem;
+   }
+}
+
+@media only screen and (min-width: 1200px) {
+
+#ticketForm{
+   /* position: sticky;  */
+   top: 10px; 
+   left: 690px; 
+   width: 35rem;
+   height: 35rem;
+
+
+}
+}

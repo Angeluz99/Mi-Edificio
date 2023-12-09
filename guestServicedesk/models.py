@@ -48,4 +48,3 @@ class Ticket(models.Model):
     def __str__(self):
         return f"{self.user} on apartment {self.apartment}. {self.title}"
 
-# superuser: angel password
