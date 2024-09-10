@@ -1,112 +1,151 @@
-{% extends "guestServicedesk/layout.html" %}
+{% extends "guestServicedesk/layout.html" %} {% load static %} {% block body %}
 
-{% load static %}
-
-
-{% block body %}
-
-<div id="bodiv">    
-
-<div id="head-guest" class="container head border bg-dark border-light rounded ">
-    <div class="row d-flex text-dark justify-content-between align-items-center">
-        <h1 class="col-6 pl-4 text-light"><i class="bi bi-key-fill "></i> Hi, {{ user.username }}!</h1>        
-        <div class="col-4 d-flex justify-content-center"><img src="{% static "guestServicedesk/images/home-maintenance.png" %}" alt="LOGO"></div>
+<div id="bodiv">
+  <div
+    id="head-guest"
+    class="container head border bg-dark border-light rounded"
+  >
+    <div
+      class="row d-flex text-dark justify-content-between align-items-center"
+    >
+      <h1 class="col-6 pl-4 text-light">
+        <i class="bi bi-key-fill"></i> Hi, {{ user.username }}!
+      </h1>
+      <div class="col-4 d-flex justify-content-center">
+        <img src="{% static "guestServicedesk/images/home-maintenance.png" %}"
+        alt="LOGO">
+      </div>
     </div>
-    <div class="row d-flex justify-content-between text-light  " onclick="scrollToTop()">
-        <button class="col-2 btn btn-success m-2 ml-5" id="openTicketFormButton"><i class="bi bi-ticket-detailed"></i> Create Ticket</button>
-        <h3 class="col-4 d-flex justify-content-center bg-info  "><i class="bi bi-person-rolodex"></i> Guest</h3>
+    <div
+      class="row d-flex justify-content-between text-light"
+      onclick="scrollToTop()"
+    >
+      <button class="col-2 btn btn-success m-2 ml-5" id="openTicketFormButton">
+        <i class="bi bi-ticket-detailed"></i> Create Ticket
+      </button>
+      <h3 class="col-4 d-flex justify-content-center bg-info">
+        <i class="bi bi-person-rolodex"></i> Guest
+      </h3>
     </div>
-    <div class="row d-flex justify-content-end ">
-        <a class="col-4 d-flex justify-content-center text-light " href="{% url 'login' %}" id="logout-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
+    <div class="row d-flex justify-content-end">
+      <a
+        class="col-4 d-flex justify-content-center text-light"
+        href="{% url 'login' %}"
+        id="logout-link"
+        ><i class="bi bi-box-arrow-right"></i> Logout</a
+      >
     </div>
+  </div>
+
+  <div
+    class="container text-light text-center"
+    id="submittedNotification"
+  ></div>
+
+  <div class="container bg-info">
+    <div class="text-center" id="NewticketForm" style="display: none">
+      <form id="ticketFormContent">
+        {% csrf_token %}
+        <input
+          type="hidden"
+          name="csrfmiddlewaretoken"
+          value="{{ csrf_token }}"
+        />
+        <div class="row">
+          <div class="col-6">
+            <label class="form-label" for="title">Title:</label>
+            <input
+              class="form-control"
+              type="text"
+              id="title"
+              name="title"
+              required
+            /><br />
+          </div>
+          <div class="col-6">
+            <label class="form-label" for="description">Description:</label>
+            <textarea
+              class="form-control"
+              id="description"
+              name="description"
+              required
+            ></textarea
+            ><br />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <label for="category">Categoria:</label>
+            <select name="category" id="category" required>
+              <option value="electricity">Electricity</option>
+              <option value="plumber">Plumber</option>
+              <option value="structures">Structures</option>
+              <option value="locksmith">Locksmith</option></select
+            ><br />
+          </div>
+
+          <div class="col-6">
+            <label for="contact">Contact number:</label>
+            <input type="text" id="contact" name="contact" required /><br />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <label for="apartment">Apartment:</label>
+            <select id="apartmentNumber">
+              <!-- <option value="">All</option> -->
+            </select>
+          </div>
+
+          <div class="col-6">
+            <label for="picture">Picture:</label>
+            <input type="file" id="picture" name="picture" /><br />
+          </div>
+        </div>
+        <button
+          class="btn btn-success"
+          type="button"
+          id="submitTicket"
+          onclick="submitNotification()"
+        >
+          Submit
+        </button>
+        <button class="btn btn-secondary" type="button" id="cancelTicket">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div id="userTickets" class="container-fluid pr-5 py-3">
+    <!-- User's tickets will be displayed here -->
+  </div>
 </div>
 
+<script
+  type="text/babel"
+  src="{% static 'guestServicedesk/guestindex.js' %}"
+></script>
+<script>
+  function populateApartmentNumbers() {
+    const apartmentSelect = document.getElementById("apartmentNumber");
+    const apartmentInput = document.getElementById("apartment");
+    for (let i = 101; i <= 111; i++) {
+      const option = document.createElement("option");
+      option.value = i;
+      option.text = i;
+      apartmentSelect.appendChild(option);
+    }
+  }
+  populateApartmentNumbers();
 
-<div class="container text-light text-center" id="submittedNotification"></div>
-
-
-   <div class="container bg-info" >
-    <div class="  text-center" id="NewticketForm" style="display: none;" >
-        <form id="ticketFormContent">
-            {% csrf_token %}
-            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-            <div class="row">
-                <div class="col-6">
-                    <label class="form-label" for="title">Title:</label>
-                    <input class="form-control" type="text" id="title" name="title" required><br>
-                </div>
-                <div class="col-6">
-                    <label class="form-label" for="description">Description:</label>
-                    <textarea class="form-control" id="description" name="description" required></textarea><br>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-6">
-                    <label for="category">Category:</label>
-                    <select  name="category" id="category" required>
-                        <option value="electricity">Electricity</option>
-                        <option value="plumber">Plumber</option>
-                        <option value="structures">Structures</option>
-                        <option value="locksmith">Locksmith</option>
-                    </select><br>
-                </div>
-
-        
-                <div class="col-6">
-                    <label for="contact">Contact number:</label>
-                    <input type="text" id="contact" name="contact" required><br>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-6">
-                    <label for="apartment">Apartment:</label>
-                    <select id="apartmentNumber">
-                        <!-- <option value="">All</option> -->
-                    </select>            
-                </div>
-                
-                <div class="col-6">
-                    <label for="picture">Picture:</label>
-                    <input type="file" id="picture" name="picture"><br>
-                </div>
-            </div>       
-            <button class="btn btn-success" type="button" id="submitTicket" onclick="submitNotification()">Submit</button>
-            <button class="btn btn-secondary" type="button" id="cancelTicket">Cancel</button>
-        </form>
-    </div>        
-  
-</div>
-    
-    <div id="userTickets" class=" container-fluid  pr-5 py-3" >
-
-        <!-- User's tickets will be displayed here -->
-    </div>
-
-
-</div>
-
-    <script type="text/babel" src="{% static 'guestServicedesk/guestindex.js' %}"></script>
-    <script>
-        function populateApartmentNumbers() {
-            const apartmentSelect = document.getElementById("apartmentNumber");
-            const apartmentInput = document.getElementById("apartment");
-            for (let i = 101; i <= 111; i++) {
-                const option = document.createElement("option");
-                option.value = i;
-                option.text = i;
-                apartmentSelect.appendChild(option);
-            }
-        }
-        populateApartmentNumbers();
-
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth' // Optional: adds smooth scrolling
-            });
-        }
-    </script>
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Optional: adds smooth scrolling
+    });
+  }
+</script>
 {% endblock %}
-
